@@ -1,16 +1,18 @@
-import './App.css';
-import { Button } from '@material-ui/core';
+import "./App.css";
+import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useState } from 'react';
-import React from 'react';
-import styled from '@emotion/styled';
+import { useState } from "react";
+import React from "react";
+import styled from "@emotion/styled";
 
-const PokemonRow = ({pokemon, onSelect}) => (
+const PokemonRow = ({ pokemon, onSelect }) => (
   <tr>
     <td>{pokemon.name.english}</td>
-    <td>{pokemon.type.join(', ')}</td>
+    <td>{pokemon.type.join(", ")}</td>
     <td>
-      <Button variant='contained' color='primary' onClick={() => onSelect(pokemon)}>Select!</Button>
+      <Button variant="contained" color="primary" onClick={() => onSelect(pokemon)}>
+        Select!
+      </Button>
     </td>
   </tr>
 );
@@ -25,18 +27,16 @@ PokemonRow.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-const PokemonInfo = ({name, base}) => (
+const PokemonInfo = ({ name, base }) => (
   <div>
     <h1>{name.english}</h1>
     <table>
-      {
-        Object.keys(base).map(key => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{base[key]}</td>
-          </tr>
-        ))
-      }
+      {Object.keys(base).map((key) => (
+        <tr key={key}>
+          <td>{key}</td>
+          <td>{base[key]}</td>
+        </tr>
+      ))}
     </table>
   </div>
 );
@@ -83,32 +83,35 @@ function App() {
   const [selectedItem, selectedItemSet] = useState(null);
 
   React.useEffect(() => {
-    fetch('http://localhost:3000/starting-react/pokemon.json').then((resp) => resp.json()).then((data) => pokemonSet(data));
+    fetch("http://localhost:3000/starting-react/pokemon.json")
+      .then((resp) => resp.json())
+      .then((data) => pokemonSet(data));
   }, []);
-  
+
   return (
     <Container>
       <Title>Pokemon Search</Title>
-      <Input type="text" value={filter} onChange={(evt) => filterSet(evt.target.value)}/>
+      <Input type="text" value={filter} onChange={(evt) => filterSet(evt.target.value)} />
       <TwoColumnLayout>
         <div>
           <table width="100%">
             <thead>
-            <tr>
+              <tr>
                 <th>Name</th>
                 <th>Type</th>
               </tr>
             </thead>
             <tbody>
-              {pokemon.filter((pokemon) => pokemon.name.english.toLowerCase().includes(filter.toLowerCase())).slice(0, 20).map(pokemon => (
-                <PokemonRow pokemon={pokemon} key={pokemon.id} onSelect={(pokemon) => selectedItemSet(pokemon)} />
-              ))}
+              {pokemon
+                .filter((pokemon) => pokemon.name.english.toLowerCase().includes(filter.toLowerCase()))
+                .slice(0, 20)
+                .map((pokemon) => (
+                  <PokemonRow pokemon={pokemon} key={pokemon.id} onSelect={(pokemon) => selectedItemSet(pokemon)} />
+                ))}
             </tbody>
           </table>
         </div>
-        {selectedItem && (
-          <PokemonInfo {...selectedItem} />
-        )}
+        {selectedItem && <PokemonInfo {...selectedItem} />}
       </TwoColumnLayout>
     </Container>
   );
