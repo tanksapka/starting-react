@@ -41,7 +41,7 @@ const PokemonInfo = ({ name, base }) => (
   </div>
 );
 
-PokemonRow.propTypes = {
+PokemonInfo.propTypes = {
   name: PropTypes.shape({
     english: PropTypes.string.isRequired,
   }),
@@ -83,7 +83,7 @@ function App() {
   const [selectedItem, selectedItemSet] = useState(null);
 
   React.useEffect(() => {
-    fetch("http://localhost:3000/starting-react/pokemon.json")
+    fetch("https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/pokedex.json")
       .then((resp) => resp.json())
       .then((data) => pokemonSet(data));
   }, []);
